@@ -120,3 +120,39 @@ The CRM heartbeat is managed through `django-crontab` and runs every 5 minutes.
 15/01/2024-14:35:00 CRM is alive
 15/01/2024-14:35:00 GraphQL endpoint responsive: Hello, GraphQL!
 ```
+
+## Low Stock Updates (Django-Crontab)
+
+The low stock update is managed through `django-crontab` and runs every 12 hours.
+
+### Configuration
+
+- **Function**: `crm.cron.update_low_stock`
+- **Schedule**: Every 12 hours (`0 */12 * * *`)
+- **Log File**: `/tmp/low_stock_updates_log.txt`
+- **GraphQL Mutation**: `UpdateLowStockProducts`
+
+### Features
+
+- Queries products with stock < 10
+- Increments their stock by 10 (simulating restocking)
+- Logs updated product names and new stock levels
+- Uses GraphQL mutation for data consistency
+- Comprehensive error handling and logging
+
+### GraphQL Mutation
+
+The `UpdateLowStockProducts` mutation:
+- Finds products with stock below threshold (default: 10)
+- Increments stock by specified amount (default: 10)
+- Returns list of updated products and success message
+
+### Log Output Example
+
+```
+15/01/2024-08:00:00 Low stock update initiated
+15/01/2024-08:00:00 Successfully updated 3 products with low stock
+15/01/2024-08:00:00 Updated Product ID: 1, Name: Laptop, New Stock: 15
+15/01/2024-08:00:00 Updated Product ID: 2, Name: Mouse, New Stock: 12
+15/01/2024-08:00:00 Updated Product ID: 3, Name: Keyboard, New Stock: 18
+```
