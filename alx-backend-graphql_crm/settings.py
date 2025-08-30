@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'crm',
     'django_filters',
     'graphene_django',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django Crontab Configuration
+# https://github.com/kraiz/django-crontab
+
+CRONJOBS = [
+    ('*/5 * * * *', 'crm.cron.log_crm_heartbeat'),
+]

@@ -2,6 +2,32 @@
 
 This directory contains automated scripts for maintaining the CRM system.
 
+## Django-Crontab Setup
+
+The project uses `django-crontab` for managing cron jobs within Django. This provides better integration and management of cron jobs.
+
+### Installation
+
+1. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Add cron jobs to system crontab:**
+   ```bash
+   python manage.py crontab add
+   ```
+
+3. **Remove cron jobs from system crontab:**
+   ```bash
+   python manage.py crontab remove
+   ```
+
+4. **Show current cron jobs:**
+   ```bash
+   python manage.py crontab show
+   ```
+
 ## clean_inactive_customers.sh
 
 This script automatically removes customers who have not placed any orders in the last year.
@@ -67,3 +93,30 @@ You can modify the script to:
 - Add additional filtering criteria
 - Modify the log file location
 - Add email notifications for cleanup results
+
+## CRM Heartbeat (Django-Crontab)
+
+The CRM heartbeat is managed through `django-crontab` and runs every 5 minutes.
+
+### Configuration
+
+- **Function**: `crm.cron.log_crm_heartbeat`
+- **Schedule**: Every 5 minutes (`*/5 * * * *`)
+- **Log File**: `/tmp/crm_heartbeat_log.txt`
+- **Format**: `DD/MM/YYYY-HH:MM:SS CRM is alive`
+
+### Features
+
+- Logs heartbeat messages with timestamps
+- Optionally queries GraphQL endpoint to verify responsiveness
+- Appends to log file (does not overwrite)
+- Error handling for both logging and GraphQL queries
+
+### Log Output Example
+
+```
+15/01/2024-14:30:00 CRM is alive
+15/01/2024-14:30:00 GraphQL endpoint responsive: Hello, GraphQL!
+15/01/2024-14:35:00 CRM is alive
+15/01/2024-14:35:00 GraphQL endpoint responsive: Hello, GraphQL!
+```
