@@ -2,6 +2,7 @@ import graphene
 from graphene_django.types import DjangoObjectType
 from django.contrib.auth.models import User
 from crm.models import Customer, Product, Order
+from crm.models import Product
 
 # GraphQL Types
 class UserType(DjangoObjectType):
